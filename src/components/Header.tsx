@@ -14,8 +14,8 @@ const CustomTitle = styled(Typography)({
 
 export const Header: React.FC = () => {
     return (
-        <>
-            <AppBar position="static">
+        // <>
+            <AppBar position="fixed">
                 <CustomToolbar>
                     <CustomTitle component="a">サブスク管理アプリ</CustomTitle>
 
@@ -25,6 +25,6 @@ export const Header: React.FC = () => {
 
                 </CustomToolbar>
             </AppBar>
-        </>
+        // </>
     );
 };
