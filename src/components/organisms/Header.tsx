@@ -1,5 +1,6 @@
 import React from "react";
 import {AppBar, Box, Button, styled, Toolbar, Typography} from "@mui/material";
+import {useNavigate} from "react-router-dom";
 
 const CustomToolbar = styled(Toolbar)({
     justifyContent: 'space-between',
@@ -13,6 +14,8 @@ const CustomTitle = styled(Typography)({
 }) as typeof Typography;
 
 export const Header: React.FC = () => {
+    const navigate = useNavigate();
+
     return (
         // <>
             <AppBar position="fixed">
@@ -20,7 +23,7 @@ export const Header: React.FC = () => {
                     <CustomTitle component="a">サブスク管理アプリ</CustomTitle>
 
                     <Box>
-                        <Button variant="outlined" color="inherit">ログイン</Button>
+                        <Button variant="outlined" color="inherit" onClick={() => navigate("/signup")}>新規登録</Button>
                     </Box>
 
                 </CustomToolbar>
