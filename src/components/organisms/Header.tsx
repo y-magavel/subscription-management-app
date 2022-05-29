@@ -20,7 +20,7 @@ export const Header: React.FC = () => {
         // <>
             <AppBar position="fixed">
                 <CustomToolbar>
-                    <CustomTitle component="a">サブスク管理アプリ</CustomTitle>
+                    <CustomTitle component="a" onClick={() => navigate("/")}>サブスク管理アプリ</CustomTitle>
 
                     <Box>
                         <Button variant="outlined" color="inherit" onClick={() => navigate("/signup")}>新規登録</Button>
