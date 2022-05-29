@@ -1,12 +1,13 @@
 import React from 'react';
-import {Header} from "./components/Header";
-import {SignUp} from "./components/SignUp";
+import {BrowserRouter} from "react-router-dom";
+import {Router} from "./router/Router";
 
 function App() {
     return (
         <>
-            <Header/>
-            <SignUp/>
+            <BrowserRouter>
+                <Router/>
+            </BrowserRouter>
         </>
     );
 }
