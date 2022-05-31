@@ -1,6 +1,6 @@
-import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword} from "firebase/auth";
+import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut} from "firebase/auth";
 
-// ユーザー新規登録
+// 新規登録
 export const signUp = (email: string, password: string) => {
     const auth = getAuth();
 
@@ -29,4 +29,14 @@ export const logIn = (email: string, password: string) => {
             const errorMessage = error.message;
             alert(`${errorCode}: ${errorMessage}`);
         });
+};
+
+// ログアウト
+export const logOut = () => {
+    const auth = getAuth();
+    signOut(auth).then(() => {
+        console.log(`ログアウト成功`);
+    }).catch((error) => {
+        console.log(`エラー発生: ${error}`);
+    });
 };

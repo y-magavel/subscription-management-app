@@ -1,6 +1,7 @@
 import React from "react";
 import {AppBar, Box, Button, styled, Toolbar, Typography} from "@mui/material";
 import {useNavigate} from "react-router-dom";
+import {logOut} from "../../services/api";
 
 const CustomToolbar = styled(Toolbar)({
     justifyContent: 'space-between',
@@ -16,6 +17,11 @@ const CustomTitle = styled(Typography)({
 export const Header: React.FC = () => {
     const navigate = useNavigate();
 
+    // ログアウトボタンを押したとき
+    const onClickLogout = () => {
+        logOut();
+    };
+
     return (
         // <>
             <AppBar position="fixed">
@@ -24,6 +30,8 @@ export const Header: React.FC = () => {
 
                     <Box>
                         <Button variant="outlined" color="inherit" onClick={() => navigate("/signup")}>新規登録</Button>
+                        <Button variant="outlined" color="inherit" onClick={() => navigate("/login")}>ログイン</Button>
+                        <Button variant="outlined" color="inherit" onClick={onClickLogout}>ログアウト</Button>
                     </Box>
 
                 </CustomToolbar>
