@@ -1,4 +1,5 @@
 import React from 'react';
+import './services/firebase';
 import {BrowserRouter} from "react-router-dom";
 import {Router} from "./router/Router";
 
