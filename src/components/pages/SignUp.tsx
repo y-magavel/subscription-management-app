@@ -7,14 +7,17 @@ export const SignUp: React.FC = () => {
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
 
+    // メールアドレスを入力したとき
     const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(e.target.value);
     };
 
+    // パスワードを入力したとき
     const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
         setPassword(e.target.value);
     };
 
+    // 登録ボタンを押したとき
     const onClickSignUp = async (email: string, password: string) => {
         console.log(email);
         console.log(password);
