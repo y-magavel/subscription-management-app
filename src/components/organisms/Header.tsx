@@ -66,6 +66,7 @@ export const Header: React.FC = () => {
 
 
                     {/*---スマホ対応---*/}
+                    {/*TODO: ハンバーガーメニュー部分のコードの可読性が悪いのでリファクタリングする*/}
                     <Box sx={{display: {xs: 'flex', md: 'none'}}}>
                         <IconButton
                             size="large"
