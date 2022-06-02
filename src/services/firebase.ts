@@ -1,4 +1,4 @@
-import { initializeApp } from 'firebase/app';
+import {initializeApp} from 'firebase/app';
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_API_KEY,
@@ -12,4 +12,4 @@ const firebaseConfig = {
 
 // TODO: Firebaseアプリオブジェクトを使い始めるタイミングでESLintのルール無効化コメントを消す
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const app = initializeApp(firebaseConfig);
+initializeApp(firebaseConfig);
