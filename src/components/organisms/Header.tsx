@@ -98,7 +98,7 @@ export const Header: React.FC = () => {
                         >
                             {isLogined ? (
                                 // ログインしていたら、こっちを表示する
-                                <>
+                                <div>
                                     <MenuItem onClick={handleCloseNavMenu}>
                                         <Typography textAlign="center" component="a" onClick={onClickLogout}
                                                     sx={{
@@ -106,10 +106,10 @@ export const Header: React.FC = () => {
                                                         color: 'inherit',
                                                     }}>ログアウト</Typography>
                                     </MenuItem>
-                                </>
+                                </div>
                             ) : (
                                 // ログインしていなければ、こっちを表示する
-                                <>
+                                <div>
                                     <MenuItem onClick={handleCloseNavMenu}>
                                         <Typography textAlign="center" component="a" onClick={() => navigate("/signup")}
                                                     sx={{
@@ -124,7 +124,7 @@ export const Header: React.FC = () => {
                                                         color: 'inherit',
                                                     }}>ログイン</Typography>
                                     </MenuItem>
-                                </>
+                                </div>
                             )}
                         </Menu>
                     </Box>
