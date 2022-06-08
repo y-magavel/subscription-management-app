@@ -3,15 +3,18 @@ import './services/firebase';
 import {BrowserRouter} from "react-router-dom";
 import {Router} from "./router/Router";
 import {RecoilRoot} from "recoil";
+import {CircularProgress} from "@mui/material";
 
 function App() {
     return (
         <>
-            <BrowserRouter>
-                <RecoilRoot>
-                    <Router/>
-                </RecoilRoot>
-            </BrowserRouter>
+            <RecoilRoot>
+                <React.Suspense fallback={<CircularProgress />}>
+                    <BrowserRouter>
+                        <Router/>
+                    </BrowserRouter>
+                </React.Suspense>
+            </RecoilRoot>
         </>
     );
 }

@@ -2,8 +2,7 @@ import React, {useState} from "react";
 import {AppBar, Box, Button, IconButton, Menu, MenuItem, styled, Toolbar, Typography} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import {logOut} from "../../services/api";
-import {useRecoilValue} from "recoil";
-import {authState} from "../../store/auth";
+import {useAuth} from "../../store/auth";
 import MenuIcon from '@mui/icons-material/Menu';
 
 // MUIのstyledユーティリティでカスタマイズ
@@ -22,7 +21,7 @@ const CustomTitle = styled(Typography)({
 // Headerコンポーネント本体
 export const Header: React.FC = () => {
     const navigate = useNavigate();
-    const isLogined = useRecoilValue(authState) !== ""; // ログインしていたらtrue、していなければfalse
+    const isLogined = useAuth(); // ログインしていたらtrue、していなければfalse
 
     // ログアウトボタンを押したとき
     const onClickLogout = async () => {

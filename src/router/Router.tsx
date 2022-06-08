@@ -5,6 +5,7 @@ import {Login} from "../components/pages/Login";
 import {Top} from "../components/pages/Top";
 import {Home} from "../components/pages/Home";
 import {Page404} from "../components/pages/Page404";
+import {PrivateRoutes} from "./PrivateRoutes";
 
 export const Router: React.FC = () => {
     return (
@@ -12,7 +13,9 @@ export const Router: React.FC = () => {
             <Route path="/" element={<Top/>}/>
             <Route path="/signup" element={<SignUp/>}/>
             <Route path="/login" element={<Login/>}/>
-            <Route path="/home" element={<Home/>}/>
+            <Route path="/" element={<PrivateRoutes/>}>
+                <Route path="home" element={<Home/>}/>
+            </Route>
             <Route path="/*" element={<Page404/>}/>
         </Routes>
     );
