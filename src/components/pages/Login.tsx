@@ -1,9 +1,23 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Button, Card, CardContent, Container, Stack, TextField, Typography} from "@mui/material";
 import {Header} from "../organisms/Header";
 import {logIn} from "../../services/api";
+import {useLocation, useNavigate} from "react-router-dom";
+import {useAuth} from "../../store/auth";
 
 export const Login: React.FC = () => {
+
+    // ログイン状態によってルーティング制御
+    const location = useLocation();
+    const navigate = useNavigate();
+    const isLogined = useAuth();
+    useEffect(() => {
+        // ログイン後、リダイレクトで遷移してきた場合はリダイレクト元に戻り、そうでなければホームに遷移する
+        let from: any = location.state || { from: { pathname: "/home" } }; // TODO: any型の指定をやめる
+        if (isLogined) navigate(from.from.pathname, {replace: true});
+    }, [isLogined, navigate, location.state]);
+
+    // Stateの宣言
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
 
@@ -19,8 +33,6 @@ export const Login: React.FC = () => {
 
     // ログインボタンを押したとき
     const onClickLogin = async (email: string, password: string) => {
-        console.log(email);
-        console.log(password);
         await logIn(email, password);
         setEmail("");
         setPassword("");
