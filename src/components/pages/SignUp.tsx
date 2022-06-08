@@ -1,9 +1,22 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Button, Card, CardContent, Container, Stack, TextField, Typography} from "@mui/material";
 import {Header} from "../organisms/Header";
 import {signUp} from "../../services/api";
+import {useNavigate} from "react-router-dom";
+import {useAuth} from "../../store/auth";
 
 export const SignUp: React.FC = () => {
+
+    // ログイン状態によってルーティング制御
+    const navigate = useNavigate();
+    const isLogined = useAuth();
+    useEffect(() => {
+        // 新規登録後、ホームに遷移する
+        let from: any = { from: { pathname: "/home" } }; // TODO: any型の指定をやめる
+        if (isLogined) navigate(from.from.pathname, {replace: true});
+    }, [isLogined, navigate]);
+
+    // Stateの宣言
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
 
@@ -19,8 +32,6 @@ export const SignUp: React.FC = () => {
 
     // 登録ボタンを押したとき
     const onClickSignUp = async (email: string, password: string) => {
-        console.log(email);
-        console.log(password);
         await signUp(email, password);
         setEmail("");
         setPassword("");
