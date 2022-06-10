@@ -28,6 +28,15 @@ export const Header: React.FC = () => {
         await logOut();
     };
 
+    // タイトルをクリックしたとき
+    const onClickTitleNavigate = () => {
+        if (isLogined) {
+            navigate("/home");
+        } else {
+            navigate("/");
+        }
+    };
+
     // ハンバーガーメニュー開閉用のStateと関数
     const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
     const handleOpenNavMenu = (e: React.MouseEvent<HTMLElement>) => {
@@ -41,7 +50,7 @@ export const Header: React.FC = () => {
         <>
             <AppBar position="fixed">
                 <CustomToolbar>
-                    <CustomTitle component="a" onClick={() => navigate("/")}>サブスク管理アプリ</CustomTitle>
+                    <CustomTitle component="a" onClick={onClickTitleNavigate}>サブスク管理アプリ</CustomTitle>
                     {/*レスポンシブ対応は以下2つのBoxコンポーネントの表示切り替えで対応している*/}
 
                     {/*---デスクトップ対応---*/}
