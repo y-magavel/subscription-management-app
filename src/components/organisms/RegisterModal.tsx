@@ -21,19 +21,40 @@ type Props = {
 };
 
 export const RegisterModal: React.FC<Props> = (props) => {
+    // Propsの受け取り
     const {open, setOpen} = props;
 
     // Stateの宣言
+    const [serviceName, setServiceName] = useState<string>("");
+    const [servicePrice, setServicePrice] = useState<number>(0); // TODO: 初期値に0があると入力しにくい（コンソールエラー回避のため設定している）
     const [paymentCycle, setPaymentCycle] = useState<string>("");
+
+    // サービス名を入力したら
+    const onChangeServiceName = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setServiceName(e.target.value);
+    };
+
+    // 料金を入力したら
+    const onChangeServicePrice = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setServicePrice(Number(e.target.value));
+    };
 
     // 支払いサイクルを選択したら
     const onChangePaymentCycleSelect = (e: SelectChangeEvent) => {
         setPaymentCycle(e.target.value);
     };
 
+    // キャンセルボタンをクリックしたら ※キャンセルボタンではなくonClose（モーダル範囲外をクリック）でモーダルを閉じた場合は入力値を保持する
+    const onClickCancel = () => {
+        setOpen(false);
+        setServiceName("");
+        setServicePrice(0);
+        setPaymentCycle("");
+    };
+
     return (
         <>
-            <Dialog open={open}>
+            <Dialog open={open} onClose={() => setOpen(false)}>
                 <DialogTitle>サブスクを追加</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
@@ -44,6 +65,8 @@ export const RegisterModal: React.FC<Props> = (props) => {
                         margin="dense"
                         id="name"
                         label="サービス名"
+                        value={serviceName}
+                        onChange={onChangeServiceName}
                         fullWidth
                         variant="outlined"
                     />
@@ -51,6 +74,8 @@ export const RegisterModal: React.FC<Props> = (props) => {
                         margin="dense"
                         id="price"
                         label="料金"
+                        value={servicePrice}
+                        onChange={onChangeServicePrice}
                         type="number"
                         fullWidth
                         variant="outlined"
@@ -70,7 +95,7 @@ export const RegisterModal: React.FC<Props> = (props) => {
                     </FormControl>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={() => setOpen(false)}>キャンセル</Button>
+                    <Button onClick={onClickCancel}>キャンセル</Button>
                     <Button onClick={() => setOpen(false)}>追加する</Button>
                 </DialogActions>
             </Dialog>
