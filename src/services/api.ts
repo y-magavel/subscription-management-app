@@ -1,7 +1,6 @@
 import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut} from "firebase/auth";
-import {collection, addDoc, serverTimestamp} from "firebase/firestore";
+import {collection, addDoc, serverTimestamp, query, where, getDocs} from "firebase/firestore";
 import {db} from "./firebase";
-
 
 // 新規登録
 export const signUp = async (email: string, password: string) => {
@@ -58,4 +57,22 @@ export const addService = async (serviceName: string, servicePrice: number, paym
     } catch (e) {
         console.log(`エラー発生: ${e}`);
     }
+};
+
+// サブスク一覧を取得する
+export const getServiceList = async (uid: string) => {
+    const q = query(collection(db, "services"), where("user_id", "==", uid));
+    const querySnapshot = await getDocs(q);
+    let result = <any>[]; // TODO: any型の指定をやめる
+
+    // 取得したデータをresult配列にオブジェクト形式で詰め込む
+    querySnapshot.forEach((doc) => {
+        result.push({
+            serviceName: doc.data().service_name,
+            servicePrice: doc.data().service_price,
+            paymentCycle: doc.data().payment_cycle,
+        });
+    });
+
+    return result;
 };
