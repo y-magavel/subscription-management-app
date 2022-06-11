@@ -11,7 +11,7 @@ export const Home: React.FC = () => {
 
     return (
         <>
-            <Header/>d
+            <Header/>
             <Container sx={{height: '100vh', display: 'flex', alignItems: 'center'}}>
                 サブスク一覧
                 <ServiceList/>
