@@ -6,7 +6,7 @@ import {RegisterModal} from "../organisms/RegisterModal";
 
 export const Home: React.FC = () => {
     // サブスク登録モーダルの開閉用State
-    const [open, setOpen] = useState<boolean>(false);
+    const [open, setOpen] = useState<boolean>(false); // TODO: カスタムフックにすることを検討する
 
     return (
         <>
