@@ -1,4 +1,5 @@
 import {initializeApp} from 'firebase/app';
+import {getFirestore} from "firebase/firestore";
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_API_KEY,
@@ -10,6 +11,5 @@ const firebaseConfig = {
     measurementId: process.env.REACT_APP_MEASUREMENT_ID,
 };
 
-// TODO: Firebaseアプリオブジェクトを使い始めるタイミングでESLintのルール無効化コメントを消す
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
+export const db = getFirestore(app);

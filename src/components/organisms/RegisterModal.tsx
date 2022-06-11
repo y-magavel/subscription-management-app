@@ -13,6 +13,8 @@ import {
     TextField,
     SelectChangeEvent,
 } from "@mui/material";
+import {addService} from "../../services/api";
+import {useAuthWithUid} from "../../store/auth";
 
 // 受け取るpropsの型定義
 type Props = {
@@ -28,6 +30,9 @@ export const RegisterModal: React.FC<Props> = (props) => {
     const [serviceName, setServiceName] = useState<string>("");
     const [servicePrice, setServicePrice] = useState<number>(0); // TODO: 初期値に0があると入力しにくい（コンソールエラー回避のため設定している）
     const [paymentCycle, setPaymentCycle] = useState<string>("");
+
+    // ログインユーザーのuidを取得
+    const loginUserId = useAuthWithUid();
 
     // サービス名を入力したら
     const onChangeServiceName = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,6 +55,12 @@ export const RegisterModal: React.FC<Props> = (props) => {
         setServiceName("");
         setServicePrice(0);
         setPaymentCycle("");
+    };
+
+    // 追加ボタンをクリックしたら
+    const onClickAddService = async () => {
+        await addService(serviceName, servicePrice, paymentCycle, loginUserId);
+        setOpen(false);
     };
 
     return (
@@ -96,7 +107,7 @@ export const RegisterModal: React.FC<Props> = (props) => {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={onClickCancel}>キャンセル</Button>
-                    <Button onClick={() => setOpen(false)}>追加する</Button>
+                    <Button onClick={onClickAddService}>追加する</Button>
                 </DialogActions>
             </Dialog>
         </>
