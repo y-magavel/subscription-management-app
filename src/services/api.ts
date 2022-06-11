@@ -1,6 +1,7 @@
 import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut} from "firebase/auth";
 import {collection, addDoc, serverTimestamp, query, where, getDocs} from "firebase/firestore";
 import {db} from "./firebase";
+import {Service} from "../types/service";
 
 // 新規登録
 export const signUp = async (email: string, password: string) => {
@@ -63,11 +64,12 @@ export const addService = async (serviceName: string, servicePrice: number, paym
 export const getServiceList = async (uid: string) => {
     const q = query(collection(db, "services"), where("user_id", "==", uid));
     const querySnapshot = await getDocs(q);
-    let result = <any>[]; // TODO: any型の指定をやめる
+    let result: Array<Service> = [];
 
     // 取得したデータをresult配列にオブジェクト形式で詰め込む
     querySnapshot.forEach((doc) => {
         result.push({
+            id: doc.id,
             serviceName: doc.data().service_name,
             servicePrice: doc.data().service_price,
             paymentCycle: doc.data().payment_cycle,
