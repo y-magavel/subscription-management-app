@@ -39,3 +39,8 @@ export const authState = atom<string | null>({
 export const useAuth = () => {
     return useRecoilValue(authState) !== null;
 };
+
+// ユーザーのuidを取得するフック
+export const useAuthWithUid = () => {
+    return useRecoilValue(authState) || "";
+};
