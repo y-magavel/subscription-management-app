@@ -34,7 +34,7 @@ export const Home: React.FC = () => {
             <Container sx={{height: '100vh', display: 'flex', alignItems: 'center'}}>
                 <ServiceList data={serviceList}/>
             </Container>
-            <RegisterModal open={open} setOpen={setOpen}/>
+            <RegisterModal open={open} setOpen={setOpen} fetch={fetch}/>
             <Footer open={open} setOpen={setOpen}/>
         </>
     );
