@@ -7,12 +7,18 @@ import {ServiceList} from "../organisms/ServiceList";
 import {useAuthWithUid} from "../../store/auth";
 import {Service} from "../../types/service";
 import {getServiceList} from "../../services/api";
+import {ServiceDetail} from "../organisms/ServiceDetail";
 
 export const Home: React.FC = () => {
     // サブスク登録モーダルの開閉用State
-    const [open, setOpen] = useState<boolean>(false); // TODO: カスタムフックにすることを検討する
+    const [registerOpen, setRegisterOpen] = useState<boolean>(false); // TODO: カスタムフックにすることを検討する
+    // サブスク詳細モーダルの開閉用State
+    const [detailOpen, setDetailOpen] = useState<boolean>(false);
+    const [detailData, setDetailData] = useState<Service>({id: "", serviceName: "", servicePrice: 0, paymentCycle: ""});
 
+    // ログインユーザーのuidを取得
     const loginUser = useAuthWithUid();
+    // サブスク一覧用のState
     const [serviceList, setServiceList] = useState<Array<Service>>([]);
 
     // 一覧データ取得/更新
@@ -28,14 +34,21 @@ export const Home: React.FC = () => {
         })();
     }, [fetch]);
 
+    // サブスク詳細情報の表示
+    const openServiceDetail = (id: string, serviceName: string, servicePrice: number, paymentCycle: string) => {
+        setDetailData({id, serviceName, servicePrice, paymentCycle});
+        setDetailOpen(true);
+    };
+
     return (
         <>
             <Header/>
             <Container sx={{height: '100vh', display: 'flex', alignItems: 'center'}}>
-                <ServiceList data={serviceList}/>
+                <ServiceList data={serviceList} openServiceDetail={openServiceDetail}/>
             </Container>
-            <RegisterModal open={open} setOpen={setOpen} fetch={fetch}/>
-            <Footer open={open} setOpen={setOpen}/>
+            <ServiceDetail open={detailOpen} setDetailOpen={setDetailOpen} data={detailData}/>
+            <RegisterModal open={registerOpen} setOpen={setRegisterOpen} fetch={fetch}/>
+            <Footer open={registerOpen} setOpen={setRegisterOpen}/>
         </>
     );
 };
