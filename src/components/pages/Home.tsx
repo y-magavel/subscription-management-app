@@ -7,6 +7,7 @@ import {ServiceList} from "../organisms/ServiceList";
 import {useAuthWithUid} from "../../store/auth";
 import {Service} from "../../types/service";
 import {getServiceList} from "../../services/api";
+import {ServiceDetail} from "../organisms/ServiceDetail";
 
 export const Home: React.FC = () => {
     // サブスク登録モーダルの開閉用State
@@ -34,6 +35,7 @@ export const Home: React.FC = () => {
             <Container sx={{height: '100vh', display: 'flex', alignItems: 'center'}}>
                 <ServiceList data={serviceList}/>
             </Container>
+            <ServiceDetail/>
             <RegisterModal open={open} setOpen={setOpen} fetch={fetch}/>
             <Footer open={open} setOpen={setOpen}/>
         </>
