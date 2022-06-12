@@ -20,11 +20,12 @@ import {useAuthWithUid} from "../../store/auth";
 type Props = {
     open: boolean;
     setOpen: Dispatch<SetStateAction<boolean>>;
+    fetch: () => Promise<void>;
 };
 
 export const RegisterModal: React.FC<Props> = (props) => {
     // Propsの受け取り
-    const {open, setOpen} = props;
+    const {open, setOpen, fetch} = props;
 
     // Stateの宣言
     const [serviceName, setServiceName] = useState<string>("");
@@ -49,18 +50,25 @@ export const RegisterModal: React.FC<Props> = (props) => {
         setPaymentCycle(e.target.value);
     };
 
-    // キャンセルボタンをクリックしたら ※キャンセルボタンではなくonClose（モーダル範囲外をクリック）でモーダルを閉じた場合は入力値を保持する
-    const onClickCancel = () => {
-        setOpen(false);
+    // サブスク登録モーダルの入力値をクリアする
+    const clearForm = () => {
         setServiceName("");
         setServicePrice(0);
         setPaymentCycle("");
     };
 
+    // キャンセルボタンをクリックしたら ※キャンセルボタンではなくonClose（モーダル範囲外をクリック）でモーダルを閉じた場合は入力値を保持する
+    const onClickCancel = () => {
+        setOpen(false);
+        clearForm();
+    };
+
     // 追加ボタンをクリックしたら
     const onClickAddService = async () => {
         await addService(serviceName, servicePrice, paymentCycle, loginUserId);
+        await fetch();
         setOpen(false);
+        clearForm();
     };
 
     return (
