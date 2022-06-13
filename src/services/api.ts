@@ -52,6 +52,7 @@ export const addService = async (serviceName: string, servicePrice: number, paym
             service_price: servicePrice,
             payment_cycle: paymentCycle,
             user_id: uid,
+            update_at: serverTimestamp(),
             created_at: serverTimestamp(),
         });
         console.log(`サブスクを追加しました：${docRef.id}`);
