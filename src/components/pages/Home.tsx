@@ -6,7 +6,7 @@ import {RegisterModal} from "../organisms/RegisterModal";
 import {ServiceList} from "../organisms/ServiceList";
 import {useAuthWithUid} from "../../store/auth";
 import {Service} from "../../types/service";
-import {getServiceList} from "../../services/api";
+import {deleteService, getServiceList} from "../../services/api";
 import {ServiceDetail} from "../organisms/ServiceDetail";
 
 export const Home: React.FC = () => {
@@ -40,13 +40,21 @@ export const Home: React.FC = () => {
         setDetailOpen(true);
     };
 
+    // サブスク削除ボタンをクリックしたら
+    const onClickDeleteService = async (id: string) => {
+        await deleteService(id);
+        await fetch();
+        setDetailData({id: "", serviceName: "", servicePrice: 0, paymentCycle: ""});
+        setDetailOpen(false);
+    };
+
     return (
         <>
             <Header/>
             <Container sx={{height: '100vh', display: 'flex', alignItems: 'center'}}>
                 <ServiceList data={serviceList} openServiceDetail={openServiceDetail}/>
             </Container>
-            <ServiceDetail open={detailOpen} setDetailOpen={setDetailOpen} data={detailData}/>
+            <ServiceDetail open={detailOpen} setDetailOpen={setDetailOpen} data={detailData} onClickDeleteService={onClickDeleteService}/>
             <RegisterModal open={registerOpen} setOpen={setRegisterOpen} fetch={fetch}/>
             <Footer open={registerOpen} setOpen={setRegisterOpen}/>
         </>

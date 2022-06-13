@@ -1,5 +1,6 @@
 import React from "react";
 import {
+    Button,
     Dialog,
     DialogActions,
     DialogContent,
@@ -17,11 +18,12 @@ type Props = {
     open: boolean;
     setDetailOpen: React.Dispatch<React.SetStateAction<boolean>>;
     data: Service;
+    onClickDeleteService: (id: string) => Promise<void>;
 };
 
 export const ServiceDetail: React.FC<Props> = (props) => {
     // Propsの受け取り
-    const {open, setDetailOpen, data} = props;
+    const {open, setDetailOpen, data, onClickDeleteService} = props;
 
     return (
         <>
@@ -64,7 +66,7 @@ export const ServiceDetail: React.FC<Props> = (props) => {
                 </DialogContent>
 
                 <DialogActions>
-                    {/*<Button variant="outlined" color="error" onClick={() => (null)}>削除する</Button>*/}
+                    <Button variant="outlined" color="error" onClick={() => onClickDeleteService(data.id)}>削除する</Button>
                     {/*<Button  variant="contained" color="primary" onClick={() => (null)}>更新する</Button>*/}
                 </DialogActions>
             </Dialog>
