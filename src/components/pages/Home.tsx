@@ -6,7 +6,7 @@ import {RegisterModal} from "../organisms/RegisterModal";
 import {ServiceList} from "../organisms/ServiceList";
 import {useAuthWithUid} from "../../store/auth";
 import {Service} from "../../types/service";
-import {deleteService, getServiceList} from "../../services/api";
+import {deleteService, getServiceList, updateService} from "../../services/api";
 import {ServiceDetail} from "../organisms/ServiceDetail";
 
 export const Home: React.FC = () => {
@@ -28,7 +28,7 @@ export const Home: React.FC = () => {
     }, [loginUser]);
 
     // 初回画面表示時
-    useEffect( () => {
+    useEffect(() => {
         (async () => {
             await fetch();
         })();
@@ -44,7 +44,13 @@ export const Home: React.FC = () => {
     const onClickDeleteService = async (id: string) => {
         await deleteService(id);
         await fetch();
-        setDetailData({id: "", serviceName: "", servicePrice: 0, paymentCycle: ""});
+        setDetailOpen(false);
+    };
+
+    // サブスク更新ボタンをクリックしたら
+    const onClickUpdateService = async (id: string, serviceName: string, servicePrice: number, paymentCycle: string) => {
+        await updateService(id, serviceName, servicePrice, paymentCycle);
+        await fetch();
         setDetailOpen(false);
     };
 
@@ -54,7 +60,8 @@ export const Home: React.FC = () => {
             <Container sx={{height: '100vh', display: 'flex', alignItems: 'center'}}>
                 <ServiceList data={serviceList} openServiceDetail={openServiceDetail}/>
             </Container>
-            <ServiceDetail open={detailOpen} setDetailOpen={setDetailOpen} data={detailData} onClickDeleteService={onClickDeleteService}/>
+            <ServiceDetail open={detailOpen} setDetailOpen={setDetailOpen} data={detailData}
+                           onClickDeleteService={onClickDeleteService} onClickUpdateService={onClickUpdateService}/>
             <RegisterModal open={registerOpen} setOpen={setRegisterOpen} fetch={fetch}/>
             <Footer open={registerOpen} setOpen={setRegisterOpen}/>
         </>

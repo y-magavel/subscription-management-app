@@ -1,5 +1,5 @@
 import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut} from "firebase/auth";
-import {collection, addDoc, serverTimestamp, query, where, getDocs, doc, deleteDoc} from "firebase/firestore";
+import {collection, addDoc, serverTimestamp, query, where, getDocs, doc, deleteDoc, updateDoc} from "firebase/firestore";
 import {db} from "./firebase";
 import {Service} from "../types/service";
 
@@ -83,4 +83,15 @@ export const getServiceList = async (uid: string) => {
 // サブスクを削除する
 export const deleteService = async (id: string) => {
     await deleteDoc(doc(db, "services", id));
+};
+
+// サブスクを更新する
+export const updateService = async (id: string, serviceName: string, servicePrice: number, paymentCycle: string) => {
+    const docRef = doc(db, "services", id);
+    await updateDoc(docRef, {
+        service_name: serviceName,
+        service_price: servicePrice,
+        payment_cycle: paymentCycle,
+        update_at: serverTimestamp(),
+    });
 };
