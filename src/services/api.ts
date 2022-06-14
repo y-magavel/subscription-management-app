@@ -1,5 +1,5 @@
 import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut} from "firebase/auth";
-import {collection, addDoc, serverTimestamp, query, where, getDocs} from "firebase/firestore";
+import {collection, addDoc, serverTimestamp, query, where, getDocs, doc, deleteDoc, updateDoc} from "firebase/firestore";
 import {db} from "./firebase";
 import {Service} from "../types/service";
 
@@ -52,6 +52,7 @@ export const addService = async (serviceName: string, servicePrice: number, paym
             service_price: servicePrice,
             payment_cycle: paymentCycle,
             user_id: uid,
+            update_at: serverTimestamp(),
             created_at: serverTimestamp(),
         });
         console.log(`サブスクを追加しました：${docRef.id}`);
@@ -77,4 +78,20 @@ export const getServiceList = async (uid: string) => {
     });
 
     return result;
+};
+
+// サブスクを削除する
+export const deleteService = async (id: string) => {
+    await deleteDoc(doc(db, "services", id));
+};
+
+// サブスクを更新する
+export const updateService = async (id: string, serviceName: string, servicePrice: number, paymentCycle: string) => {
+    const docRef = doc(db, "services", id);
+    await updateDoc(docRef, {
+        service_name: serviceName,
+        service_price: servicePrice,
+        payment_cycle: paymentCycle,
+        update_at: serverTimestamp(),
+    });
 };
