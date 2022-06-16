@@ -57,7 +57,7 @@ export const Home: React.FC = () => {
     return (
         <>
             <Header/>
-            <Container sx={{height: '100vh', display: 'flex', alignItems: 'center'}}>
+            <Container sx={{display: 'flex', alignItems: 'center', paddingY: {xs: '56px', md: '64px'}}}>
                 <ServiceList data={serviceList} openServiceDetail={openServiceDetail}/>
             </Container>
             <ServiceDetail open={detailOpen} setDetailOpen={setDetailOpen} data={detailData}
