@@ -19,7 +19,7 @@ export const Home: React.FC = () => {
 
     // ログインユーザーのuidを取得
     const loginUser = useAuthWithUid();
-    // サブスク一覧用のState
+    // すべてのサブスクデータが入ったState
     const [serviceList, setServiceList] = useState<Array<Service>>([]);
 
     // 一覧データ取得/更新
@@ -59,7 +59,7 @@ export const Home: React.FC = () => {
         <>
             <Header/>
             <Container sx={{display: 'flex', flexFlow: 'column', alignItems: 'center', paddingY: {xs: '56px', md: '64px'}}}>
-                <TotalAmount/>
+                <TotalAmount data={serviceList}/>
                 <ServiceList data={serviceList} openServiceDetail={openServiceDetail}/>
             </Container>
             <ServiceDetail open={detailOpen} setDetailOpen={setDetailOpen} data={detailData}
