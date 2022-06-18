@@ -5,6 +5,8 @@ import {logIn} from "../../services/api";
 import {useLocation, useNavigate} from "react-router-dom";
 import {useAuth} from "../../store/auth";
 import {useAuthValidation} from "../../hooks/useAuthValidation";
+import {useSetCustomAlert} from "../../store/alert";
+import {AlertArea} from "../organisms/AlertArea";
 
 export const Login: React.FC = () => {
 
@@ -19,7 +21,10 @@ export const Login: React.FC = () => {
     }, [isLogined, navigate, location.state]);
 
     // バリデーションのカスタムフック
-    const {validateAuth, emailError, emailHelperText, passwordError, passwordHelperText} = useAuthValidation();
+    const {validateAuth, emailError, emailHelperText, passwordError, passwordHelperText, setEmailError, setPasswordError} = useAuthValidation();
+
+    // カスタムアラートのフック
+    const setCustomAlert = useSetCustomAlert();
 
     // Stateの宣言
     const [email, setEmail] = useState<string>("");
@@ -40,7 +45,16 @@ export const Login: React.FC = () => {
         // バリデーションに引っかかったら
         if (validateAuth(email, password)) return;
 
-        await logIn(email, password);
+        let result = await logIn(email, password);
+
+        // ログインに失敗したら
+        if (!result) {
+            setCustomAlert({open: true, message: "ログインに失敗しました。", type: "error"});
+            setEmailError(true);
+            setPasswordError(true);
+            return;
+        }
+
         setEmail("");
         setPassword("");
     };
@@ -48,6 +62,7 @@ export const Login: React.FC = () => {
     return (
         <>
             <Header/>
+            <AlertArea/>
             <Container sx={{height: '100vh', display: 'flex', alignItems: 'center'}}>
                 <Card sx={{width: '30%', minWidth: 325, maxWidth: 500, margin: 'auto'}}>
                     <CardContent>
