@@ -53,6 +53,8 @@ export const Login: React.FC = () => {
             setEmailError(true);
             setPasswordError(true);
             return;
+        } else {
+            setCustomAlert({open: true, message: "ログインに成功しました。", type: "success"});
         }
 
         setEmail("");

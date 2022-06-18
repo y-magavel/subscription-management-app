@@ -52,6 +52,8 @@ export const SignUp: React.FC = () => {
             setEmailError(true);
             setPasswordError(true);
             return;
+        } else {
+            setCustomAlert({open: true, message: "新規登録に成功しました。", type: "success"});
         }
 
         setEmail("");
