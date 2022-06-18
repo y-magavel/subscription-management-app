@@ -5,15 +5,20 @@ import {useCustomAlert} from "../../store/alert";
 export const AlertArea: React.FC = () => {
     const [customAlert, setCustomAlert] = useCustomAlert();
 
+    // アラートの非表示化
+    const onCloseHandle = () => {
+        setCustomAlert({open: false, message: customAlert.message, type: customAlert.type});
+    };
+
     return (
         <>
             <Snackbar
-                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                anchorOrigin={{vertical: 'top', horizontal: 'center'}}
                 open={customAlert.open}
                 autoHideDuration={3000}
-                onClose={() => setCustomAlert({open: false, message: "", type: customAlert.type})}
+                onClose={onCloseHandle}
             >
-                <Alert onClose={() => setCustomAlert({open: false, message: "", type: customAlert.type})} severity={customAlert.type} sx={{ width: '100%' }}>
+                <Alert onClose={onCloseHandle} severity={customAlert.type} sx={{width: '100%'}}>
                     {customAlert.message}
                 </Alert>
             </Snackbar>

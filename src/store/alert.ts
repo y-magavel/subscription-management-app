@@ -1,4 +1,4 @@
-import {atom, useRecoilState, useSetRecoilState} from "recoil";
+import {atom, useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
 import {AlertColor} from "@mui/material";
 
 type CustomAlert = {
@@ -13,12 +13,17 @@ export const customAlertState = atom<CustomAlert>({
     default: {open: false, message: "", type: "info"},
 });
 
-// アラートメッセージを使用するフック
+// アラートを使用するフック
 export const useCustomAlert = () => {
     return useRecoilState(customAlertState);
 };
 
-// アラートメッセージの設定専用フック
+// アラート情報の設定専用フック
 export const useSetCustomAlert = () => {
     return useSetRecoilState(customAlertState);
+};
+
+// アラート情報の取得専用フック
+export const useCustomAlertValue = () => {
+    return useRecoilValue(customAlertState);
 };
