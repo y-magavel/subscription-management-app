@@ -3,6 +3,7 @@ import {Header} from "../organisms/Header";
 import {Button, Container, Grid, Typography} from "@mui/material";
 import appBlueImage from "../../images/app-blue.png";
 import phoneBlueImage from "../../images/phone-blue.png";
+import templateBlueImage from "../../images/template-blue.png";
 import exportBlueImage from "../../images/export-blue.png";
 import userBlueImage from "../../images/user-blue.png";
 
@@ -37,6 +38,21 @@ export const Top: React.FC = () => {
                     </Grid>
                     <Grid item xs={12} md={4} sx={{textAlign: "center"}}>
                         <img src={phoneBlueImage} alt="スマートフォンの画像" width={"60%"}/>
+                    </Grid>
+
+                    <Grid item xs={12} md={8} sx={{textAlign: "center"}}>
+                        <Typography variant="h3">
+                            豊富なテンプレートで簡単入力
+                        </Typography>
+                        <Typography variant="caption">
+                            ※実装予定
+                        </Typography>
+                        <Typography variant="body1">
+                            ポピュラーなサブスクのテンプレートが標準で用意されているため、選択するだけで簡単に登録することができます。
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={12} md={4} sx={{textAlign: "center"}}>
+                        <img src={templateBlueImage} alt="テンプレートを選ぶ女性の画像" width={"60%"}/>
                     </Grid>
 
                     <Grid item xs={12} md={8} sx={{textAlign: "center"}}>
