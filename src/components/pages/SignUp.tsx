@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Button, Card, CardContent, Container, Stack, TextField, Typography} from "@mui/material";
 import {Header} from "../organisms/Header";
-import {signUp} from "../../services/api";
+import {signUp, sendVerificationEmail} from "../../services/api";
 import {useNavigate} from "react-router-dom";
 import {useAuth} from "../../store/auth";
 import {useAuthValidation} from "../../hooks/useAuthValidation";
@@ -54,7 +54,8 @@ export const SignUp: React.FC = () => {
             return;
         }
 
-        setCustomAlert({open: true, message: "新規登録に成功しました。", type: "success"});
+        await sendVerificationEmail(); // 確認用メールアドレスを送信する
+        setCustomAlert({open: true, message: "確認用メールを送信しました。", type: "success"});
         setEmail("");
         setPassword("");
     };

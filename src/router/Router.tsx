@@ -6,6 +6,7 @@ import {Top} from "../components/pages/Top";
 import {Home} from "../components/pages/Home";
 import {Page404} from "../components/pages/Page404";
 import {PrivateRoutes} from "./PrivateRoutes";
+import {WaitEmailVerify} from "../components/pages/WaitEmailVerify";
 
 export const Router: React.FC = () => {
     return (
@@ -15,6 +16,7 @@ export const Router: React.FC = () => {
             <Route path="/login" element={<Login/>}/>
             <Route path="/" element={<PrivateRoutes/>}>
                 <Route path="home" element={<Home/>}/>
+                <Route path="wait-email-verify" element={<WaitEmailVerify/>}/>
             </Route>
             <Route path="/*" element={<Page404/>}/>
         </Routes>
