@@ -44,3 +44,16 @@ export const useAuth = () => {
 export const useAuthWithUid = () => {
     return useRecoilValue(authState) || "";
 };
+
+// ユーザーのメールアドレスを取得する
+export const getUserEmail = () => {
+    if (auth.currentUser) return auth.currentUser.email;
+};
+
+// ユーザーのメールアドレスの検証状況を取得する
+export const getAuthEmail = (): boolean => {
+    let result: boolean = false; // メールアドレスが検証済みかどうか
+    if (auth.currentUser && auth.currentUser.emailVerified) result = true;
+
+    return result;
+};
