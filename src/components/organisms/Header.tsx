@@ -42,9 +42,9 @@ export const Header: React.FC = () => {
     // タイトルをクリックしたとき
     const onClickTitleNavigate = () => {
         if (isLogined) {
-            navigate("/home");
+            window.location.href = "/home";
         } else {
-            navigate("/");
+            window.location.href = "/";
         }
     };
 
