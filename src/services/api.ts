@@ -4,34 +4,45 @@ import {db} from "./firebase";
 import {Service} from "../types/service";
 
 // 新規登録
-export const signUp = async (email: string, password: string) => {
+export const signUp = async (email: string, password: string): Promise<boolean> => {
     const auth = getAuth();
+    let result: boolean = false; // 新規登録の成功or失敗
 
     await createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             const user = userCredential.user;
             console.log(`登録成功: ${user.uid}`);
+            result = true;
         })
         .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
-            alert(`${errorCode}: ${errorMessage}`);
+            console.log(`登録失敗：${errorCode}「${errorMessage}」`);
+            result = false;
         });
+
+    return result;
 };
 
 // ログイン
-export const logIn = async (email: string, password: string) => {
+export const logIn = async (email: string, password: string): Promise<boolean> => {
     const auth = getAuth();
+    let result: boolean = false; // ログインの成功or失敗
+
     await signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             const user = userCredential.user;
             console.log(`ログイン成功: ${user.uid}`);
+            result = true;
         })
         .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
-            alert(`${errorCode}: ${errorMessage}`);
+            console.log(`ログイン失敗：${errorCode}「${errorMessage}」`);
+            result = false;
         });
+
+    return result;
 };
 
 // ログアウト
@@ -40,7 +51,7 @@ export const logOut = async () => {
     await signOut(auth).then(() => {
         console.log(`ログアウト成功`);
     }).catch((error) => {
-        console.log(`エラー発生: ${error}`);
+        console.log(`ログアウト失敗: ${error}`);
     });
 };
 
