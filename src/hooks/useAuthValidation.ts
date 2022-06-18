@@ -47,5 +47,5 @@ export const useAuthValidation = () => {
         return validationFlag;
     };
 
-    return {validateAuth, emailError, emailHelperText, passwordError, passwordHelperText};
+    return {validateAuth, emailError, emailHelperText, passwordError, passwordHelperText, setEmailError, setPasswordError};
 };
