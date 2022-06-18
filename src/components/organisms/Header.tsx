@@ -4,6 +4,7 @@ import {useNavigate} from "react-router-dom";
 import {logOut} from "../../services/api";
 import {useAuth} from "../../store/auth";
 import MenuIcon from '@mui/icons-material/Menu';
+import {useSetCustomAlert} from "../../store/alert";
 
 // MUIのstyledユーティリティでカスタマイズ
 const CustomToolbar = styled(Toolbar)({
@@ -23,9 +24,19 @@ export const Header: React.FC = () => {
     const navigate = useNavigate();
     const isLogined = useAuth(); // ログインしていたらtrue、していなければfalse
 
+    const setCustomAlert = useSetCustomAlert();
+
     // ログアウトボタンを押したとき
     const onClickLogout = async () => {
-        await logOut();
+        let result = await logOut();
+
+        // ログアウトに失敗したら
+        if (!result) {
+            setCustomAlert({open: true, message: "ログアウトに失敗しました。", type: "error"});
+            return;
+        }
+
+        setCustomAlert({open: true, message: "ログアウトに成功しました。", type: "success"});
     };
 
     // タイトルをクリックしたとき

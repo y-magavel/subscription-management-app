@@ -38,7 +38,7 @@ export const ServiceList: React.FC<Props> = (props) => {
     return (
         <>
             <Stack spacing={2} sx={{width: "100%", alignItems: "center"}}>
-                <p>サブスク一覧</p>
+                <Typography variant="h6" sx={{fontWeight: "bold"}}>サブスク一覧</Typography>
                 {displayData.map((service) => {
                     return (
                         <Card key={service.id} sx={{width: {xs: "90%", md: "70%"}}}>
