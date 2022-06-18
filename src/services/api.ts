@@ -46,13 +46,19 @@ export const logIn = async (email: string, password: string): Promise<boolean> =
 };
 
 // ログアウト
-export const logOut = async () => {
+export const logOut = async (): Promise<boolean> => {
     const auth = getAuth();
+    let result: boolean = false; // ログインの成功or失敗
+
     await signOut(auth).then(() => {
         console.log(`ログアウト成功`);
+        result = true;
     }).catch((error) => {
         console.log(`ログアウト失敗: ${error}`);
+        result = false;
     });
+
+    return result;
 };
 
 // サブスクを追加する
