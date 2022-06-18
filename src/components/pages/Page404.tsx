@@ -1,7 +1,7 @@
 import React from "react";
 import {Header} from "../organisms/Header";
 import {Button, Container, Typography} from "@mui/material";
-import page404Blue from "../../images/page404-blue.png";
+import page404BlueImage from "../../images/page404-blue.png";
 
 export const Page404: React.FC = () => {
     return (
@@ -14,7 +14,7 @@ export const Page404: React.FC = () => {
                 <Typography>
                     ページが見つかりませんでした。
                 </Typography>
-                <img src={page404Blue} alt="段ボールに隠れている人" width={"60%"}/>
+                <img src={page404BlueImage} alt="段ボールに隠れている人" width={"60%"}/>
                 <Button variant="contained" href="/">トップページに戻る</Button>
             </Container>
         </>
