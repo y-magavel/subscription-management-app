@@ -4,6 +4,7 @@ import {Header} from "../organisms/Header";
 import {logIn} from "../../services/api";
 import {useLocation, useNavigate} from "react-router-dom";
 import {useAuth} from "../../store/auth";
+import {useAuthValidation} from "../../hooks/useAuthValidation";
 
 export const Login: React.FC = () => {
 
@@ -13,9 +14,12 @@ export const Login: React.FC = () => {
     const isLogined = useAuth();
     useEffect(() => {
         // ログイン後、リダイレクトで遷移してきた場合はリダイレクト元に戻り、そうでなければホームに遷移する
-        let from: any = location.state || { from: { pathname: "/home" } }; // TODO: any型の指定をやめる
+        let from: any = location.state || {from: {pathname: "/home"}}; // TODO: any型の指定をやめる
         if (isLogined) navigate(from.from.pathname, {replace: true});
     }, [isLogined, navigate, location.state]);
+
+    // バリデーションのカスタムフック
+    const {validateAuth, emailError, emailHelperText, passwordError, passwordHelperText} = useAuthValidation();
 
     // Stateの宣言
     const [email, setEmail] = useState<string>("");
@@ -33,6 +37,9 @@ export const Login: React.FC = () => {
 
     // ログインボタンを押したとき
     const onClickLogin = async (email: string, password: string) => {
+        // バリデーションに引っかかったら
+        if (validateAuth(email, password)) return;
+
         await logIn(email, password);
         setEmail("");
         setPassword("");
@@ -47,9 +54,10 @@ export const Login: React.FC = () => {
                         <Stack spacing={2}>
                             <Typography sx={{textAlign: 'center', fontWeight: 'bold',}}>ログイン</Typography>
                             <TextField required id="outlined-required" label="メールアドレス" value={email}
-                                       onChange={onChangeEmail}/>
+                                       onChange={onChangeEmail} error={emailError} helperText={emailHelperText}/>
                             <TextField required id="outlined-password-input" label="パスワード" type="password"
-                                       autoComplete="current-password" value={password} onChange={onChangePassword}/>
+                                       autoComplete="current-password" value={password} onChange={onChangePassword}
+                                       error={passwordError} helperText={passwordHelperText}/>
                             <Button variant="contained" onClick={() => onClickLogin(email, password)}>ログインする</Button>
                         </Stack>
                     </CardContent>
