@@ -1,5 +1,21 @@
-import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut} from "firebase/auth";
-import {collection, addDoc, serverTimestamp, query, where, getDocs, doc, deleteDoc, updateDoc} from "firebase/firestore";
+import {
+    createUserWithEmailAndPassword,
+    getAuth,
+    sendEmailVerification,
+    signInWithEmailAndPassword,
+    signOut
+} from "firebase/auth";
+import {
+    addDoc,
+    collection,
+    deleteDoc,
+    doc,
+    getDocs,
+    query,
+    serverTimestamp,
+    updateDoc,
+    where
+} from "firebase/firestore";
 import {db} from "./firebase";
 import {Service} from "../types/service";
 
@@ -59,6 +75,19 @@ export const logOut = async (): Promise<boolean> => {
     });
 
     return result;
+};
+
+// 確認用メールを送信する
+export const sendVerificationEmail = async () => {
+    const auth = getAuth();
+
+    if (auth.currentUser && !auth.currentUser.emailVerified) {
+        // メールアドレスが認証前だったら
+        await sendEmailVerification(auth.currentUser)
+            .then(() => {
+                console.log("確認用メール送信");
+            });
+    }
 };
 
 // サブスクを追加する
