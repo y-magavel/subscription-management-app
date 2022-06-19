@@ -10,6 +10,7 @@ import {deleteService, getServiceList, updateService} from "../../services/api";
 import {ServiceDetail} from "../organisms/ServiceDetail";
 import {TotalAmount} from "../organisms/TotalAmount";
 import {AlertArea} from "../organisms/AlertArea";
+import {useSetCustomAlert} from "../../store/alert";
 
 export const Home: React.FC = () => {
     // サブスク登録モーダルの開閉用State
@@ -22,6 +23,8 @@ export const Home: React.FC = () => {
     const loginUser = useAuthWithUid();
     // すべてのサブスクデータが入ったState
     const [serviceList, setServiceList] = useState<Array<Service>>([]);
+    // カスタムアラートを使用する
+    const setCustomAlert = useSetCustomAlert();
 
     // 一覧データ取得/更新
     const fetch = useCallback(async () => {
@@ -47,6 +50,7 @@ export const Home: React.FC = () => {
         await deleteService(id);
         await fetch();
         setDetailOpen(false);
+        setCustomAlert({open: true, message: "サブスクを削除しました。", type: "success"});
     };
 
     // サブスク更新ボタンをクリックしたら
@@ -54,6 +58,7 @@ export const Home: React.FC = () => {
         await updateService(id, serviceName, servicePrice, paymentCycle);
         await fetch();
         setDetailOpen(false);
+        setCustomAlert({open: true, message: "サブスクを更新しました。", type: "success"});
     };
 
     return (

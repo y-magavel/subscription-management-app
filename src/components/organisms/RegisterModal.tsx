@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import {addService} from "../../services/api";
 import {useAuthWithUid} from "../../store/auth";
+import {useSetCustomAlert} from "../../store/alert";
 
 // 受け取るpropsの型定義
 type Props = {
@@ -32,8 +33,9 @@ export const RegisterModal: React.FC<Props> = (props) => {
     const [servicePrice, setServicePrice] = useState<number>(0); // TODO: 初期値に0があると入力しにくい（コンソールエラー回避のため設定している）
     const [paymentCycle, setPaymentCycle] = useState<string>("");
 
-    // ログインユーザーのuidを取得
-    const loginUserId = useAuthWithUid();
+    // フックの使用
+    const loginUserId = useAuthWithUid(); // ログインユーザーのuidを取得
+    const setCustomAlert = useSetCustomAlert(); // カスタムアラートを使用する
 
     // サービス名を入力したら
     const onChangeServiceName = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,6 +70,7 @@ export const RegisterModal: React.FC<Props> = (props) => {
         await addService(serviceName, servicePrice, paymentCycle, loginUserId);
         await fetch();
         setOpen(false);
+        setCustomAlert({open: true, message: "サブスクを追加しました。", type: "success"});
         clearForm();
     };
 
@@ -114,8 +117,8 @@ export const RegisterModal: React.FC<Props> = (props) => {
                     </FormControl>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={onClickCancel}>キャンセル</Button>
-                    <Button onClick={onClickAddService}>追加する</Button>
+                    <Button variant="outlined" onClick={onClickCancel}>キャンセル</Button>
+                    <Button variant="contained" color="primary" onClick={onClickAddService}>追加する</Button>
                 </DialogActions>
             </Dialog>
         </>
