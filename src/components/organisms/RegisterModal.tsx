@@ -1,4 +1,4 @@
-import React, {Dispatch, SetStateAction, useState} from "react";
+import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
 import {
     Button,
     Dialog,
@@ -7,15 +7,17 @@ import {
     DialogContentText,
     DialogTitle,
     FormControl,
+    FormHelperText,
     InputLabel,
     MenuItem,
     Select,
-    TextField,
     SelectChangeEvent,
+    TextField,
 } from "@mui/material";
 import {addService} from "../../services/api";
 import {useAuthWithUid} from "../../store/auth";
 import {useSetCustomAlert} from "../../store/alert";
+import {useServiceValidation} from "../../hooks/useServiceValidation";
 
 // 受け取るpropsの型定義
 type Props = {
@@ -36,6 +38,23 @@ export const RegisterModal: React.FC<Props> = (props) => {
     // フックの使用
     const loginUserId = useAuthWithUid(); // ログインユーザーのuidを取得
     const setCustomAlert = useSetCustomAlert(); // カスタムアラートを使用する
+
+    // バリデーション用
+    const {
+        validateService,
+        validateServiceReset,
+        serviceNameError,
+        servicePriceError,
+        paymentCycleError,
+        serviceNameHelperText,
+        servicePriceHelperText,
+        paymentCycleHelperText,
+    } = useServiceValidation();
+
+    // 追加モーダル開閉したら
+    useEffect(() => {
+        if (!open) validateServiceReset(); // 追加モーダルを閉じたときに前回のバリデーションエラーをリセットする
+    }, [open, validateServiceReset]);
 
     // サービス名を入力したら
     const onChangeServiceName = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,6 +86,7 @@ export const RegisterModal: React.FC<Props> = (props) => {
 
     // 追加ボタンをクリックしたら
     const onClickAddService = async () => {
+        if (validateService(serviceName, servicePrice, paymentCycle)) return; // バリデーションチェック
         await addService(serviceName, servicePrice, paymentCycle, loginUserId);
         await fetch();
         setOpen(false);
@@ -89,6 +109,8 @@ export const RegisterModal: React.FC<Props> = (props) => {
                         label="サービス名"
                         value={serviceName}
                         onChange={onChangeServiceName}
+                        error={serviceNameError}
+                        helperText={serviceNameHelperText}
                         fullWidth
                         variant="outlined"
                     />
@@ -98,11 +120,13 @@ export const RegisterModal: React.FC<Props> = (props) => {
                         label="料金"
                         value={servicePrice}
                         onChange={onChangeServicePrice}
+                        error={servicePriceError}
+                        helperText={servicePriceHelperText}
                         type="number"
                         fullWidth
                         variant="outlined"
                     />
-                    <FormControl fullWidth margin="dense">
+                    <FormControl fullWidth margin="dense" error={paymentCycleError}>
                         <InputLabel id="payment-cycle-select-label">支払いサイクル</InputLabel>
                         <Select
                             labelId="payment-cycle-select-label"
@@ -114,6 +138,7 @@ export const RegisterModal: React.FC<Props> = (props) => {
                             <MenuItem value={"月払い"}>月払い</MenuItem>
                             <MenuItem value={"年払い"}>年払い</MenuItem>
                         </Select>
+                        <FormHelperText>{paymentCycleHelperText}</FormHelperText>
                     </FormControl>
                 </DialogContent>
                 <DialogActions>

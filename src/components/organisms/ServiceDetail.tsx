@@ -5,13 +5,14 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle,
-    FormControl,
+    FormControl, FormHelperText,
     InputLabel,
     MenuItem,
     Select, SelectChangeEvent,
     TextField
 } from "@mui/material";
 import {Service} from "../../types/service";
+import {useServiceValidation} from "../../hooks/useServiceValidation";
 
 // 受け取るpropsの型定義
 type Props = {
@@ -31,13 +32,24 @@ export const ServiceDetail: React.FC<Props> = (props) => {
     const [servicePrice, setServicePrice] = useState<number>(0);
     const [paymentCycle, setPaymentCycle] = useState<string>("");
 
+    // バリデーション用
+    const {
+        validateService,
+        validateServiceReset,
+        serviceNameError,
+        servicePriceError,
+        paymentCycleError,
+        serviceNameHelperText,
+        servicePriceHelperText,
+        paymentCycleHelperText,
+    } = useServiceValidation();
+
     // サブスクの詳細画面を開いたら
     useEffect(() => {
         setServiceName(data.serviceName);
         setServicePrice(data.servicePrice);
         setPaymentCycle(data.paymentCycle);
     }, [data.serviceName, data.servicePrice, data.paymentCycle]);
-
 
     // サービス名を入力したら
     const onChangeServiceName = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,10 +66,22 @@ export const ServiceDetail: React.FC<Props> = (props) => {
         setPaymentCycle(e.target.value);
     };
 
+    // 更新ボタンをクリックしたら
+    const handleOnClickUpdateService = async (id: string, serviceName: string, servicePrice: number, paymentCycle: string) => {
+        if (validateService(serviceName, servicePrice, paymentCycle)) return; // バリデーションチェック
+        await onClickUpdateService(id, serviceName, servicePrice, paymentCycle);
+    };
+
+    // サブスクの詳細画面を開いたら
+    const handleOnCloseDialog = () => {
+        setDetailOpen(false);
+        validateServiceReset(); // 前回のバリデーションエラーをリセットする
+    };
+
     return (
         <>
-            <Dialog open={open} onClose={() => setDetailOpen(false)}>
-                <DialogTitle>サブスク名</DialogTitle>
+            <Dialog open={open} onClose={handleOnCloseDialog}>
+                <DialogTitle>サブスク詳細</DialogTitle>
                 <DialogContent>
                     <TextField
                         autoFocus
@@ -68,6 +92,8 @@ export const ServiceDetail: React.FC<Props> = (props) => {
                         onChange={onChangeServiceName}
                         fullWidth
                         variant="outlined"
+                        error={serviceNameError}
+                        helperText={serviceNameHelperText}
                     />
                     <TextField
                         margin="dense"
@@ -78,8 +104,10 @@ export const ServiceDetail: React.FC<Props> = (props) => {
                         type="number"
                         fullWidth
                         variant="outlined"
+                        error={servicePriceError}
+                        helperText={servicePriceHelperText}
                     />
-                    <FormControl fullWidth margin="dense">
+                    <FormControl fullWidth margin="dense" error={paymentCycleError}>
                         <InputLabel id="payment-cycle-select-label">支払いサイクル</InputLabel>
                         <Select
                             labelId="payment-cycle-select-label"
@@ -91,12 +119,13 @@ export const ServiceDetail: React.FC<Props> = (props) => {
                             <MenuItem value={"月払い"}>月払い</MenuItem>
                             <MenuItem value={"年払い"}>年払い</MenuItem>
                         </Select>
+                        <FormHelperText>{paymentCycleHelperText}</FormHelperText>
                     </FormControl>
                 </DialogContent>
 
                 <DialogActions>
                     <Button variant="outlined" color="error" onClick={() => onClickDeleteService(data.id)}>削除する</Button>
-                    <Button variant="contained" color="primary" onClick={() => onClickUpdateService(data.id, serviceName, servicePrice, paymentCycle)}>更新する</Button>
+                    <Button variant="contained" color="primary" onClick={() => handleOnClickUpdateService(data.id, serviceName, servicePrice, paymentCycle)}>更新する</Button>
                 </DialogActions>
             </Dialog>
         </>
