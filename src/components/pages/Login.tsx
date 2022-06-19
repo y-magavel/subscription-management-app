@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Button, Card, CardContent, Container, Stack, TextField, Typography} from "@mui/material";
+import {Button, Card, CardContent, Container, Link, Stack, TextField, Typography} from "@mui/material";
 import {Header} from "../organisms/Header";
 import {logIn} from "../../services/api";
 import {useLocation, useNavigate} from "react-router-dom";
@@ -75,6 +75,9 @@ export const Login: React.FC = () => {
                                        autoComplete="current-password" value={password} onChange={onChangePassword}
                                        error={passwordError} helperText={passwordHelperText}/>
                             <Button variant="contained" onClick={() => onClickLogin(email, password)}>ログインする</Button>
+                            <Typography variant="caption" sx={{textAlign: 'center'}}>
+                                まだアカウントをお持ちでない方は<Link href="/signup" variant="caption">こちら</Link>
+                            </Typography>
                         </Stack>
                     </CardContent>
                 </Card>
