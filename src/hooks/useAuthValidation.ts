@@ -1,6 +1,7 @@
 import {useState} from "react";
 
-// TODO: React-Hook-Formに置き換えた方が良いか検討する
+// TODO: React-Hook-Formに置き換えることを検討する
+// ユーザー用バリデーションフック
 export const useAuthValidation = () => {
     const [emailError, setEmailError] = useState<boolean>(false);
     const [emailHelperText, setEmailHelperText] = useState<string>("");
