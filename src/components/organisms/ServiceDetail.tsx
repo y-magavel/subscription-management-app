@@ -46,10 +46,11 @@ export const ServiceDetail: React.FC<Props> = (props) => {
 
     // サブスクの詳細画面を開いたら
     useEffect(() => {
+        if (!open) return; // 閉じたときは何もしない
         setServiceName(data.serviceName);
         setServicePrice(data.servicePrice);
         setPaymentCycle(data.paymentCycle);
-    }, [data.serviceName, data.servicePrice, data.paymentCycle]);
+    }, [data.serviceName, data.servicePrice, data.paymentCycle, open]);
 
     // サービス名を入力したら
     const onChangeServiceName = (e: React.ChangeEvent<HTMLInputElement>) => {
