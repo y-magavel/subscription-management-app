@@ -96,7 +96,7 @@ export const ServiceDetail: React.FC<Props> = (props) => {
 
                 <DialogActions>
                     <Button variant="outlined" color="error" onClick={() => onClickDeleteService(data.id)}>削除する</Button>
-                    <Button  variant="contained" color="primary" onClick={() => onClickUpdateService(data.id, serviceName, servicePrice, paymentCycle)}>更新する</Button>
+                    <Button variant="contained" color="primary" onClick={() => onClickUpdateService(data.id, serviceName, servicePrice, paymentCycle)}>更新する</Button>
                 </DialogActions>
             </Dialog>
         </>

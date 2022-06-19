@@ -45,8 +45,8 @@ export const ServiceList: React.FC<Props> = (props) => {
                             <CardActionArea
                                 onClick={() => openServiceDetail(service.id, service.serviceName, service.servicePrice, service.paymentCycle)}>
                                 <CardContent>
-                                    <Typography>{service.serviceName}</Typography>
-                                    <Typography>{service.servicePrice}円／{service.paymentCycle}</Typography>
+                                    <Typography variant="subtitle1">{service.serviceName}</Typography>
+                                    <Typography variant="caption">{service.servicePrice}円／{service.paymentCycle}</Typography>
                                 </CardContent>
                             </CardActionArea>
                         </Card>
