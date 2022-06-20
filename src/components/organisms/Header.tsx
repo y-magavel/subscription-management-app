@@ -70,6 +70,7 @@ export const Header: React.FC = () => {
                             // ログインしていたら、こっちを表示する
                             <>
                                 <Button variant="outlined" color="inherit" href="/home" sx={{mr: 1}}>ホーム</Button>
+                                <Button variant="outlined" color="inherit" href="/account-settings" sx={{mr: 1}}>アカウント</Button>
                                 <Button variant="outlined" color="inherit" onClick={onClickLogout}>ログアウト</Button>
                             </>
                         ) : (
@@ -125,6 +126,13 @@ export const Header: React.FC = () => {
                                                         textDecoration: 'none',
                                                         color: 'inherit',
                                                     }}>ホーム</Typography>
+                                    </MenuItem>
+                                    <MenuItem onClick={handleCloseNavMenu}>
+                                        <Typography textAlign="center" component="a" href="/account-settings"
+                                                    sx={{
+                                                        textDecoration: 'none',
+                                                        color: 'inherit',
+                                                    }}>アカウント</Typography>
                                     </MenuItem>
                                     <MenuItem onClick={handleCloseNavMenu}>
                                         <Typography textAlign="center" component="a" onClick={onClickLogout}
