@@ -26,6 +26,15 @@ export const PrivateRoutes: React.FC = () => {
         }
     }
 
+    // アカウント設定画面を指定してアクセスしてきた場合はこっち
+    if (isLogined && location.pathname.includes("account-settings")) {
+        if (isVerifiedEmail) {
+            target = <Outlet/>;
+        } else {
+            target = <Navigate to="/wait-email-verify" replace/>;
+        }
+    }
+
     // メール確認待ち画面を直接指定してアクセスしてきた場合はこっち
     if (isLogined && location.pathname.includes("wait-email-verify")) {
         if (isVerifiedEmail) {
