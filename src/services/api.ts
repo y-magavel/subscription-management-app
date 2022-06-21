@@ -3,7 +3,10 @@ import {
     getAuth,
     sendEmailVerification,
     signInWithEmailAndPassword,
-    signOut
+    signOut,
+    updateEmail,
+    reauthenticateWithCredential,
+    EmailAuthProvider,
 } from "firebase/auth";
 import {
     addDoc,
@@ -14,10 +17,11 @@ import {
     query,
     serverTimestamp,
     updateDoc,
-    where
+    where,
 } from "firebase/firestore";
 import {db} from "./firebase";
 import {Service} from "../types/service";
+
 
 // 新規登録
 export const signUp = async (email: string, password: string): Promise<boolean> => {
@@ -88,6 +92,34 @@ export const sendVerificationEmail = async () => {
                 console.log("確認用メール送信");
             });
     }
+};
+
+// メールアドレスを変更する
+export const changeEmail = async (newEmail: string, password: string): Promise<boolean> => {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    const credential = EmailAuthProvider.credential(user!.email!, password);
+
+    // メールアドレス変更のために再認証する（Firebaseのルールで決められていて必要なため）
+    await reauthenticateWithCredential(user!, credential).then(() => {
+        console.log("再認証成功");
+    }).catch((error) => {
+        console.log(`再認証失敗: ${error}`);
+        // TODO: 呼び出し元から失敗の理由（アカウントロックやパスワード間違い）がわかるように修正する
+        return false;
+    });
+
+    let result: boolean = false; // メールアドレス変更の成功or失敗
+    updateEmail(user!, newEmail).then(() => {
+        result = true;
+        console.log("メールアドレス変更成功");
+    }).catch((error) => {
+        // TODO: 呼び出し元から失敗の理由（既に使用されているメールアドレスなど）がわかるように修正する
+        result = false;
+        console.log(`メールアドレス変更失敗: ${error}`)
+    });
+
+    return result;
 };
 
 // サブスクを追加する
