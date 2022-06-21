@@ -11,7 +11,7 @@ export const useAuthValidation = () => {
     // メールアドレスとパスワードをチェックする
     const validateAuth = (email: string, password: string) => {
         let validationFlag: boolean = false; // 入力値がバリデーションに引っかかったかどうかのフラグ
-        let pattern:RegExp  = /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]+.[A-Za-z0-9]+$/; // メールアドレスの正規表現
+        let pattern: RegExp  = /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]+.[A-Za-z0-9]+$/; // メールアドレスの正規表現
 
         // メールアドレスの必須チェック
         if (email === "") {

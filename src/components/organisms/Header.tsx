@@ -4,6 +4,10 @@ import {useNavigate} from "react-router-dom";
 import {logOut} from "../../services/api";
 import {useAuth} from "../../store/auth";
 import MenuIcon from '@mui/icons-material/Menu';
+import HomeIcon from '@mui/icons-material/Home';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import LoginIcon from '@mui/icons-material/Login';
+import LogoutIcon from '@mui/icons-material/Logout';
 import {useSetCustomAlert} from "../../store/alert";
 
 // MUIのstyledユーティリティでカスタマイズ
@@ -69,7 +73,9 @@ export const Header: React.FC = () => {
                         {isLogined ? (
                             // ログインしていたら、こっちを表示する
                             <>
-                                <Button variant="outlined" color="inherit" onClick={onClickLogout}>ログアウト</Button>
+                                <Button variant="outlined" color="inherit" href="/home" sx={{mr: 1}}><HomeIcon/>ホーム</Button>
+                                <Button variant="outlined" color="inherit" href="/account-settings" sx={{mr: 1}}><ManageAccountsIcon/>アカウント</Button>
+                                <Button variant="outlined" color="inherit" onClick={onClickLogout}><LogoutIcon/>ログアウト</Button>
                             </>
                         ) : (
                             // ログインしていなければ、こっちを表示する
@@ -77,7 +83,7 @@ export const Header: React.FC = () => {
                                 <Button variant="outlined" color="inherit" onClick={() => navigate("/signup")}
                                         sx={{mr: 1}}>新規登録</Button>
                                 <Button variant="outlined" color="inherit"
-                                        onClick={() => navigate("/login")}>ログイン</Button>
+                                        onClick={() => navigate("/login")}><LoginIcon/>ログイン</Button>
                             </>
 
                         )}
@@ -119,6 +125,23 @@ export const Header: React.FC = () => {
                                 // ログインしていたら、こっちを表示する
                                 <div>
                                     <MenuItem onClick={handleCloseNavMenu}>
+                                        <HomeIcon/>
+                                        <Typography textAlign="center" component="a" href="/home"
+                                                    sx={{
+                                                        textDecoration: 'none',
+                                                        color: 'inherit',
+                                                    }}>ホーム</Typography>
+                                    </MenuItem>
+                                    <MenuItem onClick={handleCloseNavMenu}>
+                                        <ManageAccountsIcon/>
+                                        <Typography textAlign="center" component="a" href="/account-settings"
+                                                    sx={{
+                                                        textDecoration: 'none',
+                                                        color: 'inherit',
+                                                    }}>アカウント</Typography>
+                                    </MenuItem>
+                                    <MenuItem onClick={handleCloseNavMenu}>
+                                        <LogoutIcon/>
                                         <Typography textAlign="center" component="a" onClick={onClickLogout}
                                                     sx={{
                                                         textDecoration: 'none',
@@ -137,6 +160,7 @@ export const Header: React.FC = () => {
                                                     }}>新規登録</Typography>
                                     </MenuItem>
                                     <MenuItem onClick={handleCloseNavMenu}>
+                                        <LoginIcon/>
                                         <Typography textAlign="center" component="a" onClick={() => navigate("/login")}
                                                     sx={{
                                                         textDecoration: 'none',
