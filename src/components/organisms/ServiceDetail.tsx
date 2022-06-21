@@ -73,7 +73,7 @@ export const ServiceDetail: React.FC<Props> = (props) => {
         await onClickUpdateService(id, serviceName, servicePrice, paymentCycle);
     };
 
-    // サブスクの詳細画面を開いたら
+    // サブスクの詳細画面を閉じたら
     const handleOnCloseDialog = () => {
         setDetailOpen(false);
         validateServiceReset(); // 前回のバリデーションエラーをリセットする
