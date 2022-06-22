@@ -65,7 +65,10 @@ export const Header: React.FC = () => {
         <>
             <AppBar position="fixed">
                 <CustomToolbar>
-                    <CustomTitle component="a" onClick={onClickTitleNavigate}>サブスク管理アプリ</CustomTitle>
+                    <CustomTitle component="a" onClick={onClickTitleNavigate}>
+                        サブスク管理アプリ
+                        <Typography variant="caption">Ver.0.1.0 (β版)</Typography>
+                    </CustomTitle>
                     {/*レスポンシブ対応は以下2つのBoxコンポーネントの表示切り替えで対応している*/}
 
                     {/*---デスクトップ対応---*/}
