@@ -3,6 +3,7 @@ import {Header} from "../organisms/Header";
 import {AlertArea} from "../organisms/AlertArea";
 import {Button, Card, CardContent, Container, Stack, TextField, Typography} from "@mui/material";
 import {useSetCustomAlert} from "../../store/alert";
+import {submitPasswordResetEmail} from "../../services/api";
 
 export const ForgotPassword: React.FC = () => {
 
@@ -19,10 +20,15 @@ export const ForgotPassword: React.FC = () => {
     };
 
     // 再設定メール送信ボタンがクリックされたら
-    const onClickSendEmailButton = () => {
-        // TODO: 再設定メール送信処理
-        setCustomAlert({open: true, message: `宛先：${email}にパスワード再設定メールを送信しました。`, type: "success"});
-        setEmail("");
+    const onClickSendEmailButton = async () => {
+        let result = await submitPasswordResetEmail(email);
+        if (result) {
+            setCustomAlert({open: true, message: `宛先：${email}にパスワード再設定メールを送信しました。`, type: "success"});
+            setEmail("");
+            setSendEmailButtonDisabled(true);
+        } else {
+            setCustomAlert({open: true, message: `パスワード再設定メールの送信に失敗しました。`, type: "error"});
+        }
     };
 
     return (

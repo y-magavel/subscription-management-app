@@ -8,6 +8,7 @@ import {
     signOut,
     updateEmail,
     updatePassword,
+    sendPasswordResetEmail,
 } from "firebase/auth";
 import {
     addDoc,
@@ -147,6 +148,24 @@ export const changePassword = async (newPassword: string, password: string) => {
         result = false;
         console.log(`メールアドレス変更失敗: ${error}`);
     });
+
+    return result;
+};
+
+// パスワード再設定用メールを送信する
+export const submitPasswordResetEmail = async (email: string): Promise<boolean> => {
+    const auth = getAuth();
+    let result: boolean = false; // パスワード再設定メール送信の成功or失敗
+
+    await sendPasswordResetEmail(auth, email)
+        .then(() => {
+            result = true;
+            console.log("パスワード再設定メール送信成功");
+        })
+        .catch((error) => {
+            result = false;
+            console.log(`パスワード再設定メール送信失敗: ${error}`);
+        });
 
     return result;
 };
