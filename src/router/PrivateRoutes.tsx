@@ -4,8 +4,6 @@ import {useAuth, getAuthEmail} from "../store/auth";
 
 export const PrivateRoutes: React.FC = () => {
     const location = useLocation();
-    console.log(location);
-    console.log(`リダイレクト元：${location.pathname}`);
 
     // ログインしているか
     const isLogined = useAuth();

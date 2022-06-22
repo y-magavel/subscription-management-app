@@ -18,7 +18,7 @@ export const Top: React.FC = () => {
 
                     <Grid item xs={12} md={12} sx={{textAlign: "center"}}>
                         <Typography variant="h3" marginTop="50px">
-                            サブスクを簡単に見える化しよう
+                            サブスクを簡単に見える化
                         </Typography>
                     </Grid>
                     <Grid item xs={12} md={12} sx={{textAlign: "center"}}>
