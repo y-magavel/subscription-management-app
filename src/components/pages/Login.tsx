@@ -78,6 +78,9 @@ export const Login: React.FC = () => {
                             <Typography variant="caption" sx={{textAlign: 'center'}}>
                                 まだアカウントをお持ちでない方は<Link href="/signup" variant="caption">こちら</Link>
                             </Typography>
+                            <Typography variant="caption" sx={{textAlign: 'center'}}>
+                                パスワードをお忘れの方は<Link href={"/forgot-password"} variant="caption">こちら</Link>
+                            </Typography>
                         </Stack>
                     </CardContent>
                 </Card>

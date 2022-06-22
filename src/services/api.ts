@@ -1,12 +1,14 @@
 import {
     createUserWithEmailAndPassword,
+    EmailAuthProvider,
     getAuth,
+    reauthenticateWithCredential,
     sendEmailVerification,
     signInWithEmailAndPassword,
     signOut,
     updateEmail,
-    reauthenticateWithCredential,
-    EmailAuthProvider,
+    updatePassword,
+    sendPasswordResetEmail,
 } from "firebase/auth";
 import {
     addDoc,
@@ -110,7 +112,7 @@ export const changeEmail = async (newEmail: string, password: string): Promise<b
     });
 
     let result: boolean = false; // メールアドレス変更の成功or失敗
-    updateEmail(user!, newEmail).then(() => {
+    await updateEmail(user!, newEmail).then(() => {
         result = true;
         console.log("メールアドレス変更成功");
     }).catch((error) => {
@@ -118,6 +120,52 @@ export const changeEmail = async (newEmail: string, password: string): Promise<b
         result = false;
         console.log(`メールアドレス変更失敗: ${error}`)
     });
+
+    return result;
+};
+
+// パスワードを変更する
+export const changePassword = async (newPassword: string, password: string) => {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    const credential = EmailAuthProvider.credential(user!.email!, password);
+
+    // メールアドレス変更のために再認証する（Firebaseのルールで決められていて必要なため）
+    await reauthenticateWithCredential(user!, credential).then(() => {
+        console.log("再認証成功");
+    }).catch((error) => {
+        console.log(`再認証失敗: ${error}`);
+        // TODO: 呼び出し元から失敗の理由（アカウントロックやパスワード間違い）がわかるように修正する
+        return false;
+    });
+
+    let result: boolean = false; // パスワード変更の成功or失敗
+
+    await updatePassword(user!, newPassword).then(() => {
+        result = true;
+        console.log("メールアドレス変更成功");
+    }).catch((error) => {
+        result = false;
+        console.log(`メールアドレス変更失敗: ${error}`);
+    });
+
+    return result;
+};
+
+// パスワード再設定用メールを送信する
+export const submitPasswordResetEmail = async (email: string): Promise<boolean> => {
+    const auth = getAuth();
+    let result: boolean = false; // パスワード再設定メール送信の成功or失敗
+
+    await sendPasswordResetEmail(auth, email)
+        .then(() => {
+            result = true;
+            console.log("パスワード再設定メール送信成功");
+        })
+        .catch((error) => {
+            result = false;
+            console.log(`パスワード再設定メール送信失敗: ${error}`);
+        });
 
     return result;
 };
